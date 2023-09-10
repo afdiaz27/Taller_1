@@ -4,6 +4,7 @@ require(pacman)
 p_load(tidyverse,rvest)
 
 ####Scraping las páginas en donde están los data chunks
+start <- Sys.time()
 
 #Inicializar listas
 url_dc<-list()
@@ -30,3 +31,7 @@ database<-database %>% select(-...1)
 #Crear dataframe solamente con individuos mayores a 18 años
 
 database_18<-database %>% filter(age > 18)
+
+print( Sys.time() - start )
+
+save(database_18, file = "C:/Users/afdia/OneDrive - Universidad de los Andes/Maestría en Economía Aplicada/Big Data y Machine Learning/Repositorios-GitHub/Taller_1/stores/database_18.Rda")
