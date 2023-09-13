@@ -26,5 +26,28 @@ show(df)
 
 ##Se verifican los NAs de la base
 
+sapply(df, function(x) sum(is.na(x)))
+
+##Se eliminan las variables y_bonificaciones_m, y_salarySec_m, y_ingLab_m_ha, p6620s1
+
+df<- df %>%
+  select(age, clase, college, cuentaPropia, dsi, estrato1, hoursWorkUsual, informal, ingtotob, maxEducLevel, microEmpresa, ocu, oficio, p6210, relab, sex, sizeFirm, y_total_m, y_total_m_ha)
+
+sapply(df, function(x) sum(is.na(x)))
+
+##Verificando el porcentaje de NA en una variable
+
+df$informal %>%
+  table(useNA = "ifany") %>%
+  prop.table() %>%
+  round(3)*100
+
+##Se eliminan las observaciones de NA para las variables categoricas
+
+df<- subset(df,informal == "NA")
+
+
+
+
 
 
