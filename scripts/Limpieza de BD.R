@@ -42,9 +42,18 @@ df$informal %>%
   prop.table() %>%
   round(3)*100
 
+## Se verifica si los datos NAN son los mismos en todas las variables categoricas
+filas_con_nan <- df[apply(is.na(df),1,any), ]
+
 ##Se eliminan las observaciones de NA para las variables categoricas
 
-df<- subset(df,informal == "NA")
+df_sin_nan<- df[!is.na(df$informal), ]
+
+sapply(df_sin_nan, function(x) sum(is.na(x)))
+
+
+
+
 
 
 
