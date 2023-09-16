@@ -8,7 +8,7 @@ library(pacman)
 p_load(tidyverse, tidymodels, glmnet, ggplot2)
 p_load(tidyverse, skimr, stargazer, tidymodels, broom,knitr,kableExtra)
 
-load("C:/Users/afdia/OneDrive - Universidad de los Andes/Maestría en Economía Aplicada/Big Data y Machine Learning/Repositorios-GitHub/Taller_1/stores/Punto5b_mejor_modelo.Rda")
+load("C:/Users/afdia/OneDrive - Universidad de los Andes/Maestría en Economía Aplicada/Big Data y Machine Learning/Repositorios-GitHub/Taller_1/stores/Punto5b_test_set_mejor_modelo.Rda")
 
 mejor_test<-mejor_test %>% mutate(error_mejor_test = .pred - log_wageh)
 
