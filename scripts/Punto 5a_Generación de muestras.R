@@ -19,7 +19,10 @@ base_de_datos <- df_clean
 #Creación de interacciones
 
 base_de_datos <- base_de_datos %>% mutate(female_age = female*age)
-base_de_datos <- base_de_datos %>% mutate(female_age2 = female*age2)                                          
+base_de_datos <- base_de_datos %>% mutate(female_age2 = female*age2)
+base_de_datos <- base_de_datos %>% mutate(age3 = age^3)
+base_de_datos <- base_de_datos %>% mutate(age4 = age^4)
+base_de_datos <- base_de_datos %>% mutate(age5 = age^5)
 
 #Creación de las muestras de entrenamiento y parte de prueba (Enfoque de Validation Set)
 

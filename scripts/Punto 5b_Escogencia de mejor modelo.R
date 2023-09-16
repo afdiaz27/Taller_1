@@ -23,46 +23,40 @@ base_de_datos<-base_de_datos %>% mutate(age5 = age^5)
 
 #Creación de recipes
 
-recp_1<-recipe(log_wageh ~ 1,data=base_de_datos) #Modelo log(w) = b0
+recp_1<-recipe(log_wageh ~ 1,data=base_de_datos)
 
-recp_2<-recipe(log_wageh ~ age + age2,data=base_de_datos) #Modelo log(w) = b0 + b1*Age + b2*Age^2
+recp_2<-recipe(log_wageh ~ age + age2,data=base_de_datos)
 
-recp_3<-recipe(log_wageh ~ female, data=base_de_datos) #Modelo log(w) = b0 + d1*female
+recp_3<-recipe(log_wageh ~ female, data=base_de_datos)
 
 recp_4<-recipe(log_wageh ~ female + age + age2 + informal + maxEducLevel + 
                  sizeFirm + relab , data=base_de_datos) %>% 
   step_dummy(all_nominal_predictors())  #Convertir todas las variables categóricas a dummies  
-#Modelo log(w) = b0 + d1*female + controles_1
+
 
 recp_5<-recipe(log_wageh ~ female + age + age2 + informal + maxEducLevel + 
                  sizeFirm + relab , data=base_de_datos) %>% 
   step_dummy(all_nominal_predictors())  #Convertir todas las variables categóricas a dummies  
-#Modelo log(w) = b0 + d1*female + controles_1
+
 
 recp_6<-recipe(log_wageh ~ female + age + age2 + informal + maxEducLevel + 
                  sizeFirm + relab , data=base_de_datos) %>% 
   step_dummy(all_nominal_predictors())  #Convertir todas las variables categóricas a dummies  
-#Modelo log(w) = b0 + d1*female + controles_1
+
 
 recp_7<-recipe(log_wageh ~ female + age + age2 + informal + maxEducLevel + 
                  sizeFirm + relab , data=base_de_datos) %>% 
   step_dummy(all_nominal_predictors())  #Convertir todas las variables categóricas a dummies  
-#Modelo log(w) = b0 + d1*female + controles_1
 
-recp_8<-recipe(log_wageh ~ female + age + age2 + informal + maxEducLevel + 
-                 sizeFirm + relab , data=base_de_datos) %>% 
-  step_dummy(all_nominal_predictors())  #Convertir todas las variables categóricas a dummies  
-#Modelo log(w) = b0 + d1*female + controles_1
 
-recp_9<-recipe(log_wageh ~ female + age + age2 + informal + maxEducLevel + 
-                 sizeFirm + relab , data=base_de_datos) %>% 
-  step_dummy(all_nominal_predictors())  #Convertir todas las variables categóricas a dummies  
-#Modelo log(w) = b0 + d1*female + controles_1
-
+recp_8<-recipe(log_wageh ~ female + age + age2 + age3,  data=base_de_datos) %>% 
+  
+recp_9<-recipe(log_wageh ~ female + age + age2 + age3+age4 , data=base_de_datos) %>% 
+  
 recp_10<-recipe(log_wageh ~ female + age + age2 + informal + maxEducLevel + 
                   sizeFirm + relab , data=base_de_datos) %>% 
   step_dummy(all_nominal_predictors())  #Convertir todas las variables categóricas a dummies  
-#Modelo log(w) = b0 + d1*female + controles_1
+
 
 #Creación de tipo de método de estimación
 
