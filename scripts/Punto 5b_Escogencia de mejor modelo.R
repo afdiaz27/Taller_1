@@ -12,14 +12,10 @@ p_load(tidyverse, skimr, stargazer, tidymodels, broom,knitr,kableExtra)
 
 load("C:/Users/afdia/OneDrive - Universidad de los Andes/Maestría en Economía Aplicada/Big Data y Machine Learning/Repositorios-GitHub/Taller_1/stores/Punto5a_training_set.Rda")
 load("C:/Users/afdia/OneDrive - Universidad de los Andes/Maestría en Economía Aplicada/Big Data y Machine Learning/Repositorios-GitHub/Taller_1/stores/Punto5a_test_set.Rda")
-load("C:/Users/afdia/OneDrive - Universidad de los Andes/Maestría en Economía Aplicada/Big Data y Machine Learning/Repositorios-GitHub/Taller_1/stores/database_18_clean.Rda")
-base_de_datos <- df_clean
+load("C:/Users/afdia/OneDrive - Universidad de los Andes/Maestría en Economía Aplicada/Big Data y Machine Learning/Repositorios-GitHub/Taller_1/stores/Punto5a_base_de_datos.Rda")
+
 
 #Creación de variables adicionales
-
-base_de_datos<-base_de_datos %>% mutate(age3 = age^3)
-base_de_datos<-base_de_datos %>% mutate(age4 = age^4)
-base_de_datos<-base_de_datos %>% mutate(age5 = age^5)
 
 #Creación de recipes
 
@@ -39,8 +35,8 @@ recp_5<-recipe(log_wageh ~ female + age + age2 + informal + maxEducLevel +
   step_dummy(all_nominal_predictors())  #Convertir todas las variables categóricas a dummies  
 
 
-recp_6<-recipe(log_wageh ~ female + age + age2 + informal + maxEducLevel + 
-                 sizeFirm + relab , data=base_de_datos) %>% 
+recp_6<-recipe(log_wageh ~ female + age + age2 + age3 + female_age + female_age2 + female_age3 + informal + maxEducLevel + 
+                 sizeFirm + relab, data=base_de_datos) %>% 
   step_dummy(all_nominal_predictors())  #Convertir todas las variables categóricas a dummies  
 
 
@@ -48,12 +44,11 @@ recp_7<-recipe(log_wageh ~ female + age + age2 + informal + maxEducLevel +
                  sizeFirm + relab , data=base_de_datos) %>% 
   step_dummy(all_nominal_predictors())  #Convertir todas las variables categóricas a dummies  
 
-
-recp_8<-recipe(log_wageh ~ female + age + age2 + age3,  data=base_de_datos) %>% 
+recp_8<-recipe(log_wageh ~ female + age + age2 + age3,  data=base_de_datos)
   
-recp_9<-recipe(log_wageh ~ female + age + age2 + age3+age4 , data=base_de_datos) %>% 
+recp_9<-recipe(log_wageh ~ female + age + age2 + age3 + age4, data=base_de_datos)
   
-recp_10<-recipe(log_wageh ~ female + age + age2 + informal + maxEducLevel + 
+recp_10<-recipe(log_wageh ~ female + age + age2 + age3 + informal + maxEducLevel + 
                   sizeFirm + relab , data=base_de_datos) %>% 
   step_dummy(all_nominal_predictors())  #Convertir todas las variables categóricas a dummies  
 
