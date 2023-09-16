@@ -75,3 +75,5 @@ mejor_test<-mejor_test %>%
 #Calcular contribución de outlier en porcentaje
 cont_outlier<-mejor_test %>% group_by(outlier) %>% 
   summarise(sum_contribución = round(sum(porc_error_mejor_test2),3),.groups='drop')
+
+cont_outlier
