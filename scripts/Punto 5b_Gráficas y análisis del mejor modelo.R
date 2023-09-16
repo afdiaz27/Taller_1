@@ -17,7 +17,7 @@ mejor_test<-mejor_test %>% mutate(error_mejor_test = .pred - log_wageh)
 #ggplot(data = mejor_test, aes(x = error_mejor_test))+
 #  geom_histogram()
 
-#png("C:/Users/afdia/OneDrive - Universidad de los Andes/Maestría en Economía Aplicada/Big Data y Machine Learning/Repositorios-GitHub/Taller_1/view/Histograma.png")
+png("C:/Users/afdia/OneDrive - Universidad de los Andes/Maestría en Economía Aplicada/Big Data y Machine Learning/Repositorios-GitHub/Taller_1/view/Punto5_Histograma_Error.png")
 h_error<-hist(mejor_test$error_mejor_test,
               breaks = 200,
               col = "blue",
@@ -27,6 +27,7 @@ h_error<-hist(mejor_test$error_mejor_test,
               ylab = "Frecuencia",
               labels = FALSE,
 )
+dev.off()
 
 #Boxplot del error
 
