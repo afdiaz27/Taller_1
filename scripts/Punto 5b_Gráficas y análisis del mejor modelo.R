@@ -14,9 +14,6 @@ mejor_test<-mejor_test %>% mutate(error_mejor_test = .pred - log_wageh)
 
 #Histograma del error
 
-#ggplot(data = mejor_test, aes(x = error_mejor_test))+
-#  geom_histogram()
-
 png("C:/Users/afdia/OneDrive - Universidad de los Andes/Maestría en Economía Aplicada/Big Data y Machine Learning/Repositorios-GitHub/Taller_1/view/Punto5_Histograma_Error.png")
 h_error<-hist(mejor_test$error_mejor_test,
               breaks = 200,
@@ -38,6 +35,7 @@ ggplot(mejor_test, aes(y = error_mejor_test, x="")) +
                outlier.size=1) + 
   labs(title = "Box Plot Error - Mejor Modelo", y = "Error de predicción", x="") + 
   theme_bw()
+ggsave("C:/Users/afdia/OneDrive - Universidad de los Andes/Maestría en Economía Aplicada/Big Data y Machine Learning/Repositorios-GitHub/Taller_1/view/Punto5_BoxPlot_Error.png")
 
 ##Plot error vs log(w)
 
@@ -46,6 +44,8 @@ min_outlier <- mean(mejor_test$log_wageh)-3*sd(mejor_test$log_wageh)
 max_outlier <-mean(mejor_test$log_wageh)+3*sd(mejor_test$log_wageh)
 
 ##Gráfica que identifica observaciones outliers y su valor de error (en rojo)
+
+png("C:/Users/afdia/OneDrive - Universidad de los Andes/Maestría en Economía Aplicada/Big Data y Machine Learning/Repositorios-GitHub/Taller_1/view/Punto5_Plot_Outliers_Error.png")
 plot(mejor_test$log_wageh,mejor_test$error_mejor_test,
      xlab="Log(w) observado",
      ylab="Error de predicción",
@@ -54,7 +54,7 @@ abline(v = min_outlier,col="gray",lwd=2,lty=2)
 text(x=min_outlier-0.25, y=4.5, 'A')
 abline(v = max_outlier,col="gray",lwd=2,lty=2)
 text(x=max_outlier-0.25, y=4.5, 'B')
-
+dev.off()
 ##Contribución de los outliers en el error
 
 #Error al cuadrado para cada observación en el test set
@@ -72,6 +72,6 @@ mejor_test<-mejor_test %>%
                   "Outlier",
                   "No Outlier"))
 
-#Calcular contribución de outlier
+#Calcular contribución de outlier en porcentaje
 cont_outlier<-mejor_test %>% group_by(outlier) %>% 
   summarise(sum_contribución = round(sum(porc_error_mejor_test2),3),.groups='drop')
