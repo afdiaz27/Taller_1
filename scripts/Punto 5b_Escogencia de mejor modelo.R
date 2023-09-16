@@ -13,7 +13,13 @@ p_load(tidyverse, skimr, stargazer, tidymodels, broom,knitr,kableExtra)
 load("C:/Users/afdia/OneDrive - Universidad de los Andes/Maestría en Economía Aplicada/Big Data y Machine Learning/Repositorios-GitHub/Taller_1/stores/Punto5a_training_set.Rda")
 load("C:/Users/afdia/OneDrive - Universidad de los Andes/Maestría en Economía Aplicada/Big Data y Machine Learning/Repositorios-GitHub/Taller_1/stores/Punto5a_test_set.Rda")
 load("C:/Users/afdia/OneDrive - Universidad de los Andes/Maestría en Economía Aplicada/Big Data y Machine Learning/Repositorios-GitHub/Taller_1/stores/database_18_clean.Rda")
-base_de_datos <- df_clean 
+base_de_datos <- df_clean
+
+#Creación de variables adicionales
+
+base_de_datos<-base_de_datos %>% mutate(age3 = age^3)
+base_de_datos<-base_de_datos %>% mutate(age4 = age^4)
+base_de_datos<-base_de_datos %>% mutate(age5 = age^5)
 
 #Creación de recipes
 
