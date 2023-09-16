@@ -77,3 +77,7 @@ cont_outlier<-mejor_test %>% group_by(outlier) %>%
   summarise(sum_contribución = round(sum(porc_error_mejor_test2),3),.groups='drop')
 
 cont_outlier
+
+plot(mejor_test$age,mejor_test$log_wageh)
+points(mejor_test$age,mejor_test$.pred,col="red")
+
