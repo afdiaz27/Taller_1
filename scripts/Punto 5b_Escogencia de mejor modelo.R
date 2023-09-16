@@ -204,7 +204,7 @@ df_RMSE
 
 #Exportar RMSE
 
-write.csv(df_RMSE, "C:/Users/afdia/OneDrive - Universidad de los Andes/Maestría en Economía Aplicada/Big Data y Machine Learning/Repositorios-GitHub/Taller_1/view/ValidationSet_RMSE.csv", row.names = F)
+write.csv(df_RMSE, "C:/Users/afdia/OneDrive - Universidad de los Andes/Maestría en Economía Aplicada/Big Data y Machine Learning/Repositorios-GitHub/Taller_1/view/Tabla_Punto5_ValidationSet_RMSE.csv", row.names = F)
 
 ##Mejor modelo
 
