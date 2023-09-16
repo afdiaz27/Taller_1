@@ -94,7 +94,7 @@ yhat_1 <- predict(fit_1, new_data = test_set) %>% bind_cols(test_set) #Predecir 
 RMSE_test_1 <- rmse(yhat_1, truth = log_wageh, estimate = .pred)
 
 df_RMSE[1,1]<-"Modelo 1"
-df_RMSE[1,2]<-round(RMSE_test_1$.estimate,3)
+df_RMSE[1,2]<-RMSE_test_1$.estimate
 
 #Modelo 2
 
@@ -105,7 +105,7 @@ yhat_2 <- predict(fit_2, new_data = test_set) %>% bind_cols(test_set) #Predecir 
 RMSE_test_2 <- rmse(yhat_2, truth = log_wageh, estimate = .pred)
 
 df_RMSE[2,1]<-"Modelo 2"
-df_RMSE[2,2]<-round(RMSE_test_2$.estimate,3)
+df_RMSE[2,2]<-RMSE_test_2$.estimate
 
 #Modelo 3
 
@@ -116,7 +116,7 @@ yhat_3 <- predict(fit_3, new_data = test_set) %>% bind_cols(test_set) #Predecir 
 RMSE_test_3 <- rmse(yhat_3, truth = log_wageh, estimate = .pred)
 
 df_RMSE[3,1]<-"Modelo 3"
-df_RMSE[3,2]<-round(RMSE_test_3$.estimate,3)
+df_RMSE[3,2]<-RMSE_test_3$.estimate
 
 #Modelo 4
 
@@ -127,7 +127,7 @@ yhat_4 <- predict(fit_4, new_data = test_set) %>% bind_cols(test_set) #Predecir 
 RMSE_test_4 <- rmse(yhat_4, truth = log_wageh, estimate = .pred)
 
 df_RMSE[4,1]<-"Modelo 4"
-df_RMSE[4,2]<-round(RMSE_test_4$.estimate,3)
+df_RMSE[4,2]<-RMSE_test_4$.estimate
 
 #Modelo 5
 
@@ -138,7 +138,7 @@ yhat_5 <- predict(fit_5, new_data = test_set) %>% bind_cols(test_set) #Predecir 
 RMSE_test_5 <- rmse(yhat_5, truth = log_wageh, estimate = .pred)
 
 df_RMSE[5,1]<-"Modelo 5"
-df_RMSE[5,2]<-round(RMSE_test_5$.estimate,3)
+df_RMSE[5,2]<-RMSE_test_5$.estimate
 
 #Modelo 6
 
@@ -149,7 +149,7 @@ yhat_6 <- predict(fit_6, new_data = test_set) %>% bind_cols(test_set) #Predecir 
 RMSE_test_6 <- rmse(yhat_6, truth = log_wageh, estimate = .pred)
 
 df_RMSE[6,1]<-"Modelo 6"
-df_RMSE[6,2]<-round(RMSE_test_6$.estimate,3)
+df_RMSE[6,2]<-RMSE_test_6$.estimate
 
 #Modelo 7
 
@@ -160,7 +160,7 @@ yhat_7 <- predict(fit_7, new_data = test_set) %>% bind_cols(test_set) #Predecir 
 RMSE_test_7 <- rmse(yhat_7, truth = log_wageh, estimate = .pred)
 
 df_RMSE[7,1]<-"Modelo 7"
-df_RMSE[7,2]<-round(RMSE_test_7$.estimate,3)
+df_RMSE[7,2]<-RMSE_test_7$.estimate
 
 #Modelo 8
 
@@ -171,7 +171,7 @@ yhat_8 <- predict(fit_8, new_data = test_set) %>% bind_cols(test_set) #Predecir 
 RMSE_test_8 <- rmse(yhat_8, truth = log_wageh, estimate = .pred)
 
 df_RMSE[8,1]<-"Modelo 8"
-df_RMSE[8,2]<-round(RMSE_test_8$.estimate,3)
+df_RMSE[8,2]<-RMSE_test_8$.estimate
 
 #Modelo 9
 
@@ -182,7 +182,7 @@ yhat_9 <- predict(fit_9, new_data = test_set) %>% bind_cols(test_set) #Predecir 
 RMSE_test_9 <- rmse(yhat_9, truth = log_wageh, estimate = .pred)
 
 df_RMSE[9,1]<-"Modelo 9"
-df_RMSE[9,2]<-round(RMSE_test_9$.estimate,3)
+df_RMSE[9,2]<-RMSE_test_9$.estimate
 
 #Modelo 10
 
@@ -193,7 +193,7 @@ yhat_10 <- predict(fit_10, new_data = test_set) %>% bind_cols(test_set) #Predeci
 RMSE_test_10 <- rmse(yhat_10, truth = log_wageh, estimate = .pred)
 
 df_RMSE[10,1]<-"Modelo 10"
-df_RMSE[10,2]<-round(RMSE_test_10$.estimate,3)
+df_RMSE[10,2]<-RMSE_test_10$.estimate
 
 df_RMSE
 
