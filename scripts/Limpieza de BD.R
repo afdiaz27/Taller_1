@@ -100,3 +100,16 @@ glimpse(df_clean)
 ##Guardando la base de datos limpia
 
 save(df_clean, file = "d:/Javier/Desktop/UNIANDES/Big Data/Taller_1/stores/database_18_clean.Rda")
+
+summary(df_clean)
+
+boxplot(df_clean$y_total_m_ha)
+
+hist(df_clean$y_total_m_ha, xlab="Salario por hora")
+hist(df_clean$log_wageh, xlab="Log Salario por hora")
+
+
+
+
+
+
