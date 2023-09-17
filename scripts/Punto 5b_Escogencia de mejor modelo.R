@@ -25,17 +25,17 @@ recp_2<-recipe(log_wageh ~ age + age2,data=base_de_datos)
 
 recp_3<-recipe(log_wageh ~ female, data=base_de_datos)
 
-recp_4<-recipe(log_wageh ~ female + age + age2 + informal + maxEducLevel + 
+recp_4<-recipe(log_wageh ~ female + informal + maxEducLevel + 
                  sizeFirm + relab , data=base_de_datos) %>% 
   step_dummy(all_nominal_predictors())  #Convertir todas las variables categóricas a dummies  
 
 
-recp_5<-recipe(log_wageh ~ female + age + age2 + informal + maxEducLevel + 
+recp_5<-recipe(log_wageh ~ female + age + informal + maxEducLevel + 
                  sizeFirm + relab , data=base_de_datos) %>% 
   step_dummy(all_nominal_predictors())  #Convertir todas las variables categóricas a dummies  
 
 
-recp_6<-recipe(log_wageh ~ female + age + age2 + age3 + female_age + female_age2 + female_age3 + informal + maxEducLevel + 
+recp_6<-recipe(log_wageh ~ female + age + age2 + female_age + female_age2 + informal + maxEducLevel + 
                  sizeFirm + relab, data=base_de_datos) %>% 
   step_dummy(all_nominal_predictors())  #Convertir todas las variables categóricas a dummies  
 
