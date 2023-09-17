@@ -35,17 +35,11 @@ sapply(df, function(x) sum(is.na(x)))
 df<- df %>%
   select(age, clase, college, cuentaPropia, dsi, estrato1, hoursWorkUsual, informal, ingtotob, maxEducLevel, microEmpresa, ocu, oficio, p6210, relab, sex, sizeFirm, y_total_m, y_total_m_ha)
 
-sapply(df, function(x) sum(is.na(x)))
+NAN1_df <- data.frame(sapply(df, function(x) sum(is.na(x))))
+colnames(NAN1_df)<- c("Numero de NAN")
 
-##Verificando el porcentaje de NA en una variable
-
-df$informal %>%
-  table(useNA = "ifany") %>%
-  prop.table() %>%
-  round(3)*100
-
-## Se verifica si los datos NAN son los mismos en todas las variables categoricas
-filas_con_nan <- df[apply(is.na(df),1,any), ]
+##Se exporta la tabla de salida de Sapply
+write.csv(NAN1_df, file = "sapply para NAN.csv", row.names=TRUE)
 
 ##Se eliminan las observaciones de NA para las variables categoricas
 
@@ -62,14 +56,47 @@ sapply(df_sin_nan, function(x) sum(is.na(x)))
 df_sin_nan<- df_sin_nan %>%
   select(age, clase, college, cuentaPropia, dsi, estrato1, hoursWorkUsual, informal, maxEducLevel, microEmpresa, ocu, oficio, relab, sex, sizeFirm, y_total_m, y_total_m_ha)
 
+sapply(df_sin_nan, function(x) sum(is.na(x)))
+NAN2_df <- data.frame(sapply(df_sin_nan, function(x) sum(is.na(x))))
+
+colnames(NAN2_df)<- c("Numero de NAN")
+
+##Se exporta la tabla de salida de Sapply
+write.csv(NAN2_df, file = "sapply para NAN2.csv", row.names=TRUE)
+
+##Verificación de ceros de la variable salario por hora y_total_m_ha
+
+tabla_frecuencia_wage<- data.frame(table(df_sin_nan$y_total_m_ha))
+print(tabla_frecuencia_wage)
+
+
+boxplot(df_sin_nan$y_total_m_ha)
+summary(df_sin_nan$y_total_m_ha)
+
+install.packages("flextable")
+library(flextable)
+
+df_y_total_m_ha<- data.frame(df_sin_nan$y_total_m_ha)
+sum<- summary(df_y_total_m_ha)
+tabla_flex <- flextable::as_flextable(sum)
+
+flextable(df_y_total_m_ha)
+
+
 ##Limpieza por outliers
+
+boxplot(df_clean$y_total_m_ha)
+
 
 std_wageh<- sd(df_sin_nan$y_total_m_ha)
 print(std_wageh)
-tres_std_wageh<- std_wageh*3
+mean_wage<- mean(df_sin_nan$y_total_m_ha)
+print(mean_wage)
+tres_std_wageh<- std_wageh*3+mean_wage
 print(tres_std_wageh)
 
-df_clean <- df_sin_nan[df_sin_nan$y_total_m_ha <= tres_std_wageh, ]
+df_clean <- df_sin_nan[df_sin_nan$y_total_m_ha <= 125000, ]
+df_clean <- df_sin_nan[df_sin_nan$y_total_m_ha > 1006, ]
 
 ##Creación del logaritmo del salario
 
@@ -99,16 +126,16 @@ df_clean<- df_clean %>%
 
 glimpse(df_clean)
 
+##Cambiando female a fct
+
+df_clean$female<- as.factor(df_clean$female)
+str(df_clean)
+
 ##Guardando la base de datos limpia
 
 save(df_clean, file = "d:/Javier/Desktop/UNIANDES/Big Data/Taller_1/stores/database_18_clean.Rda")
 
-summary(df_clean)
 
-boxplot(df_clean$y_total_m_ha)
-
-hist(df_clean$y_total_m_ha, xlab="Salario por hora")
-hist(df_clean$log_wageh, xlab="Log Salario por hora")
 
 
 
