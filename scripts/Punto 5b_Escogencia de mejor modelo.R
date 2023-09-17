@@ -197,15 +197,18 @@ df_RMSE[10,2]<-RMSE_test_10$.estimate
 
 df_RMSE<-df_RMSE %>% arrange(desc(RMSE))
 
+#Exportar RMSE
+
 a<-df_RMSE[[1]]
 
 ggplot(df_RMSE,aes(x=factor(Modelo,level=a),y=RMSE,group=1))+
   geom_line()+
-  geom_point()
+  geom_point()+
+  labs(x="")+
+  theme_bw()+
+  theme(axis.text.x = element_text(size = 7)) 
 
-plot("",df_RMSE$RMSE)
-
-#Exportar RMSE
+ggsave("C:/Users/afdia/OneDrive - Universidad de los Andes/Maestría en Economía Aplicada/Big Data y Machine Learning/Repositorios-GitHub/Taller_1/view/Punto5_RMSE.png")
 
 write.csv(df_RMSE, "C:/Users/afdia/OneDrive - Universidad de los Andes/Maestría en Economía Aplicada/Big Data y Machine Learning/Repositorios-GitHub/Taller_1/view/Tabla_Punto5_ValidationSet_RMSE.csv", row.names = F)
 
