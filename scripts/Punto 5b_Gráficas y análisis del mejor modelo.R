@@ -10,7 +10,7 @@ p_load(tidyverse, skimr, stargazer, tidymodels, broom,knitr,kableExtra)
 
 load("C:/Users/afdia/OneDrive - Universidad de los Andes/Maestría en Economía Aplicada/Big Data y Machine Learning/Repositorios-GitHub/Taller_1/stores/Punto5b_test_set_mejor_modelo.Rda")
 
-mejor_test<-mejor_test %>% mutate(error_mejor_test = .pred - log_wageh)
+mejor_test<-mejor_test %>% mutate(error_mejor_test = log_wageh - .pred)
 
 #Histograma del error
 
@@ -51,9 +51,9 @@ plot(mejor_test$log_wageh,mejor_test$error_mejor_test,
      ylab="Error de predicción",
      col = ifelse(mejor_test$log_wageh < min_outlier, "red","green"))
 abline(v = min_outlier,col="gray",lwd=2,lty=2)
-text(x=min_outlier-0.25, y=4.5, 'A')
+text(x=min_outlier-0.25, y=-4.5, 'A')
 abline(v = max_outlier,col="gray",lwd=2,lty=2)
-text(x=max_outlier-0.25, y=4.5, 'B')
+text(x=max_outlier-0.25, y=-4.5, 'B')
 dev.off()
 ##Contribución de los outliers en el error
 
@@ -77,7 +77,3 @@ cont_outlier<-mejor_test %>% group_by(outlier) %>%
   summarise(sum_contribución = round(sum(porc_error_mejor_test2),3),.groups='drop')
 
 cont_outlier
-
-plot(mejor_test$age,mejor_test$log_wageh)
-points(mejor_test$age,mejor_test$.pred,col="red")
-

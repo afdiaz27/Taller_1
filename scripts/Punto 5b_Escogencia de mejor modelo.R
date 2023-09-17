@@ -195,7 +195,15 @@ RMSE_test_10 <- rmse(yhat_10, truth = log_wageh, estimate = .pred)
 df_RMSE[10,1]<-"Modelo 10"
 df_RMSE[10,2]<-RMSE_test_10$.estimate
 
-df_RMSE
+df_RMSE<-df_RMSE %>% arrange(desc(RMSE))
+
+a<-df_RMSE[[1]]
+
+ggplot(df_RMSE,aes(x=factor(Modelo,level=a),y=RMSE,group=1))+
+  geom_line()+
+  geom_point()
+
+plot("",df_RMSE$RMSE)
 
 #Exportar RMSE
 
