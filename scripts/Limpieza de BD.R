@@ -1,11 +1,13 @@
-##Cargue de paquetes 
+########################## Limpieza de data #################################
+
+##Cargue de paquetes
 library (pacman)
 p_load(tidyverse, tidymodels, glmnet)
 
-##Cargue de base de datos
+##Cargue de base de datos y visualizaci[on]
 setwd("d:/Javier/Desktop/UNIANDES/Big Data/Taller_1/stores")
 load("database_18.Rda")
-view(database_18.Rda)
+view(database_18)
 
 ##Creación de dataframe para iniciar limpieza de base de datos
 df<- database_18
