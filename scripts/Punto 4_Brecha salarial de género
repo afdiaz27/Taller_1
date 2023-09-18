@@ -96,6 +96,29 @@ install.packages('ggplot2')
 ggplot(data = df_FWL_male_predict, mapping = aes(x = age, y = income_male))+
   geom_point(col = 'grey')+
   labs(x = 'Edad de los hombres', y = 'Ingreso por hora')+
-  geom_vline(xintercept = 42, col = 'red') 
+  geom_vline(xintercept = 42, col = 'blue', size = 0.8) 
 
 ggsave('Edad_pico_hombres.png', width=8, height=4)
+
+
+# Women
+
+df_FWL_female <- model_female_controls[model_female_controls$female==1,]
+View(df_FWL_female)
+
+rm_FWL_female_plot <- lm(log_wageh ~ age + age2, data = df_FWL_female)
+
+df_FWL_female_predict <- df_FWL_female %>%
+  mutate(income_female = predict(rm_FWL_female_plot))
+View(df_FWL_female_predict)
+
+which.max(df_FWL_female_predict$income_female) # Result is row 34
+df_FWL_female_predict$age[[34]] # We find the equivalent age to the highest income 
+
+ggplot(data = df_FWL_female_predict, mapping = aes(x = age, y = income_female))+
+  geom_point(col = 'grey')+
+  labs(x = 'Edad de las mujeres', y = 'Ingreso por hora')+
+  geom_vline(xintercept = 37, col = 'pink', size = 1.0)
+
+
+ggsave('Edad_pico_mujeres.png', width=8, height=4)
