@@ -70,4 +70,32 @@ set.seed(198)
 boot(wages, eta_fn, R=1000)
 
 
+# Plot of the predicted age-wage profile
 
+# Men
+
+model_male_controls <- wages %>%
+  select(log_wageh, sex, age, age2, informal, maxEducLevel, sizeFirm, relab)
+
+df_FWL_male <- model_male_controls[model_male_controls$sex==1,]
+View(df_FWL_male)
+
+rm_FWL_male <- lm(log_wageh ~ age + age2, data = df_FWL_male)
+stargazer(rm_FWL_male,
+          type = "text",
+          digits = 6)
+
+df_FWL_male_predict <- df_FWL_male %>%
+  mutate(income_male = predict(rm_FWL_male))
+View(df_FWL_male_predict)
+
+which.max(df_FWL_male_predict$income_male) # Result is row 48
+df_FWL_male_predict$age[[48]] # We find the equivalent age 
+
+install.packages('ggplot2')
+ggplot(data = df_FWL_male_predict, mapping = aes(x = age, y = income_male))+
+  geom_point(col = 'grey')+
+  labs(x = 'Edad de los hombres', y = 'Ingreso por hora')+
+  geom_vline(xintercept = 42, col = 'red') 
+
+ggsave('Edad_pico_hombres.png', width=8, height=4)
