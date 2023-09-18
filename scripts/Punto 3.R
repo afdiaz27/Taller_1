@@ -2,7 +2,7 @@
 ##Punto N3: Estimación del Perfil edad-salario##
 ##Cargue de paquetes
 library (pacman)
-p_load(tidyverse, skimr, stargazer, tidymodels, broom,knitr,kableExtra)
+p_load(tidyverse, skimr, stargazer, tidymodels, broom,knitr,kableExtra, ggplot2)
 
 ##Cargue de base de datos##
 setwd("C:/users/de.sandoval10/Documents/GitHub/Taller_1/stores")
@@ -42,36 +42,34 @@ df_clean_p <- cbind(df_clean,residuo,y_hat)
 
 
 ##Graficar perfil de la edad contra el salario##
-ggplot(df_clean_p , aes(y = y_hat, x = age)) +
-  geom_point() + # add points
-  stat_smooth(formula = 'y ~ x', method = lm, se = FALSE, 
-              size = 1) +  #fit the linear model in the plot
-  theme_bw() + #black and white theme
-  labs(x = "edad",  
-       y = "Logaritmo del Salario",
-       title = "Perfil de edad contra salario") # labels
+# Grafica el estimado de la función
+
+ggplot(df_clean_p) +
+  geom_point(aes(x=age,y=y_hat)) +
+  ggtitle("Perfil edad-ingresos") +
+  labs(x="Edad (años)", y="Predicción ln ingresos/hora")
 
 ##Estimacion Invertalos de Confianza con Bootstrap##
 #Carga de paquete para bootstrap#
+
+
+# FWL with Bootstrap - Conditional Wage Gap
 p_load(boot)
 
-id<-c(1:length(df_clean[[1]]))
-df_clean<-cbind(id, df_clean)
-
 set.seed(1000)
-beta_fn <- function(formula,data,id){
-  d <- data[id,]
+beta_fn <- function(formula,data,indices){
+  d <- data[indices,]
   fit <- lm(formula,data=d)
   return(coef(fit))
 }
-reps <- boot(data=df_clean,statistic=beta_fn,R=1000,formula=y ~.)
+reps <- boot(data=dat,statistic=beta_fn,R=1000,formula=y~.)
 reps
 str(reps)
 
 set.seed(1000)
-Rep <- 1000
-reg_age <- rep(0,Rep)
-for(i in 1:Rep) {
+R <- 1000
+reg_age <- rep(0,R)
+for(i in 1:R) {
   sample <- sample_frac(dat,size=1,replace=TRUE)
   f <- lm(y~.,sample)
   coefs <- f$coefficients
@@ -79,10 +77,18 @@ for(i in 1:Rep) {
   b2 <- coefs[3]
   reg_age[i] <- b1/(-2*b2)
 }
-hist(reg_age,xlab="Edad",ylab="Porcentaje",main="Edad pico del salario por hora",col="black")
-abline(v=mean(reg_age),col="white",lwd=3)
+
+hist(reg_age,xlab="Edad",ylab="Porcentaje",main="Edad en la que se alcanza el pico de máximo salario",col="green")
+abline(v=mean(reg_age),col="darkblue",lwd=3)
 summary(reg_age)
 mean(reg_age)
 
-prueba <- 2+2
-print (prueba)
+# Intervalo de confianza
+ICb0 <- 1.96*6.009782e-02
+ICb1 <- 1.96*3.220967e-03
+ICb2 <- 1.96*3.962613e-05
+
+ICb0
+ICb1
+ICb2
+
