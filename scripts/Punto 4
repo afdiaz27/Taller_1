@@ -38,7 +38,8 @@ model_female_controls <- wages %>%
 
 rm_FWL_female <- lm(log_wageh ~ female, data = model_female_controls)
 rm_FWL_female_controls <- lm(log_wageh ~ ., data = model_female_controls)
-stargazer(rm_FWL_female, rm_FWL_female_controls, type = "text", 
+stargazer(rm_FWL_female, rm_FWL_female_controls, 
+          type = "text", 
           omit = c("age", "informal", "maxEducLevel", "sizeFirm", "relab"))
 
 r1 <- residuals(lm(log_wageh ~ age+age2+informal+maxEducLevel+sizeFirm+relab, 
@@ -47,6 +48,9 @@ r2 <- residuals(lm(female ~ age+age2+informal+maxEducLevel+sizeFirm+relab,
                    data = model_female_controls))
 
 rm_residuals <- lm(r1 ~ r2, data=model_female_controls)
-stargazer(rm_FWL_female,rm_FWL_female_controls,rm_residuals, type = "text", 
+stargazer(rm_FWL_female,rm_FWL_female_controls,rm_residuals, 
+          type = "text", 
           omit = c("age", "informal", "maxEducLevel", "sizeFirm", "relab"),
-          dep.var.labels = c("Ordinary Least Squares"))
+          dep.var.labels = c("Ordinary Least Squares"),
+          out = "residuals.txt")
+
