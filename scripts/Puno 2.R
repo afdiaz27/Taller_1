@@ -51,3 +51,38 @@ ggplot(df_clean_p , aes(y = y_hat, x = age)) +
        y = "Logaritmo del Salario",
        title = "Perfil de edad contra salario") # labels
 
+##Estimacion Invertalos de Confianza con Bootstrap##
+#Carga de paquete para bootstrap#
+p_load(boot)
+
+id<-c(1:length(df_clean[[1]]))
+df_clean<-cbind(id, df_clean)
+
+set.seed(1000)
+beta_fn <- function(formula,data,id){
+  d <- data[id,]
+  fit <- lm(formula,data=d)
+  return(coef(fit))
+}
+reps <- boot(data=df_clean,statistic=beta_fn,R=1000,formula=y ~.)
+reps
+str(reps)
+
+set.seed(1000)
+Rep <- 1000
+reg_age <- rep(0,Rep)
+for(i in 1:Rep) {
+  sample <- sample_frac(dat,size=1,replace=TRUE)
+  f <- lm(y~.,sample)
+  coefs <- f$coefficients
+  b1 <- coefs[2]
+  b2 <- coefs[3]
+  reg_age[i] <- b1/(-2*b2)
+}
+hist(reg_age,xlab="Edad",ylab="Porcentaje",main="Edad pico del salario por hora",col="black")
+abline(v=mean(reg_age),col="white",lwd=3)
+summary(reg_age)
+mean(reg_age)
+
+prueba <- 2+2
+print (prueba)
