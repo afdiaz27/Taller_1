@@ -36,8 +36,8 @@ model_female_controls <- wages %>%
   select(log_wageh, female, age, age2, informal, maxEducLevel, sizeFirm, relab) 
 #Including control variables from Recipe No.7 of Point 5.
 
-rm_FWL_female <- lm(log_wageh ~ female, data = model_female_controls)
-rm_FWL_female_controls <- lm(log_wageh ~ ., data = model_female_controls)
+rm_FWL_female <- lm(log_wageh ~ female, data = model_female_controls) # Regression Model with No Controls
+rm_FWL_female_controls <- lm(log_wageh ~ ., data = model_female_controls) #Regression Model with Controls
 stargazer(rm_FWL_female, rm_FWL_female_controls, 
           type = "text", 
           omit = c("age", "informal", "maxEducLevel", "sizeFirm", "relab"))
@@ -52,5 +52,23 @@ stargazer(rm_FWL_female,rm_FWL_female_controls,rm_residuals,
           type = "text", 
           omit = c("age", "informal", "maxEducLevel", "sizeFirm", "relab"),
           dep.var.labels = c("Ordinary Least Squares"),
-          out = "residuals.txt")
+          out = "residuals.txt",
+          digits = 6)
+
+
+# FWL with Bootstrap - Conditional Wage Gap
+p_load(boot)
+
+eta_fn <- function(data, index){
+  coef(lm(log_wageh ~ ., data = model_female_controls, subset = index))[2]
+} 
+
+eta_fn(wages, 1:nrow(wages))
+
+set.seed(198)
+boot(wages, eta_fn, R=1000)
+mean(eta_fn)
+sqrt(var(eta_fn))
+
+
 
