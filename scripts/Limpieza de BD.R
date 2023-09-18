@@ -4,7 +4,7 @@
 library (pacman)
 p_load(tidyverse, tidymodels, glmnet)
 
-##Cargue de base de datos y visualizaci[on]
+##Cargue de base de datos y visualización
 setwd("d:/Javier/Desktop/UNIANDES/Big Data/Taller_1/stores")
 load("database_18.Rda")
 view(database_18)
@@ -76,16 +76,7 @@ summary(df_sin_nan$y_total_m_ha)
 install.packages("flextable")
 library(flextable)
 
-df_y_total_m_ha<- data.frame(df_sin_nan$y_total_m_ha)
-sum<- summary(df_y_total_m_ha)
-tabla_flex <- flextable::as_flextable(sum)
-
-flextable(df_y_total_m_ha)
-
-
 ##Limpieza por outliers
-
-boxplot(df_clean$y_total_m_ha)
 
 
 std_wageh<- sd(df_sin_nan$y_total_m_ha)
@@ -133,7 +124,7 @@ str(df_clean)
 
 ##Guardando la base de datos limpia
 
-save(df_clean, file = "d:/Javier/Desktop/UNIANDES/Big Data/Taller_1/stores/database_18_clean.Rda")
+save(df_clean, file = "d:/Javier/Desktop/UNIANDES/Big Data/Taller_1/stores/database_18_clean2.Rda")
 
 
 
