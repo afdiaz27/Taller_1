@@ -1,0 +1,73 @@
+### Taller 1
+## Punto 4
+
+# General
+install.packages('pacman')
+require(pacman)
+p_load(tidyverse, skimr, stargazer, ggplot2, tidymodels, broom,knitr,kableExtra)
+
+# Importing the Clean Dataset
+load("/cloud/project/database_18_clean.Rda")
+wages <- df_clean
+View(wages)
+
+
+# Variable Selection
+X <- wages %>%
+  select(female)
+
+y <- wages %>%
+  select(log_wageh) %>%
+  rename (y = 'log_wageh')
+
+dat <- cbind(X,y)
+skim(dat)
+
+
+# Regression Model
+mod_female <- lm(y ~ ., data = dat, x = TRUE)
+setwd('/cloud/project')
+?stargazer
+stargazer(mod_female, type = "text", out = "mod_female.txt", dep.var.labels = c("Salario por hora"))
+
+
+# FWL - Conditional Wage Gap
+model_female_controls <- wages %>%
+  select(log_wageh, female, age, age2, informal, maxEducLevel, sizeFirm, relab) 
+#Including control variables from Recipe No.7 of Point 5.
+
+rm_FWL_female <- lm(log_wageh ~ female, data = model_female_controls) # Regression Model with No Controls
+rm_FWL_female_controls <- lm(log_wageh ~ ., data = model_female_controls) #Regression Model with Controls
+stargazer(rm_FWL_female, rm_FWL_female_controls, 
+          type = "text", 
+          omit = c("age", "informal", "maxEducLevel", "sizeFirm", "relab"))
+
+r1 <- residuals(lm(log_wageh ~ age+age2+informal+maxEducLevel+sizeFirm+relab, 
+                   data = model_female_controls)) 
+r2 <- residuals(lm(female ~ age+age2+informal+maxEducLevel+sizeFirm+relab, 
+                   data = model_female_controls))
+
+rm_residuals <- lm(r1 ~ r2, data=model_female_controls)
+stargazer(rm_FWL_female,rm_FWL_female_controls,rm_residuals, 
+          type = "text", 
+          omit = c("age", "informal", "maxEducLevel", "sizeFirm", "relab"),
+          dep.var.labels = c("Ordinary Least Squares"),
+          out = "residuals.txt",
+          digits = 6)
+
+
+# FWL with Bootstrap - Conditional Wage Gap
+p_load(boot)
+
+eta_fn <- function(data, index){
+  rm_FWL_boot <- subset(model_female_controls, select = log_wageh:relab)
+  coef(lm(r1 ~ r2, data = model_female_controls, subset = index))[2]
+} 
+
+eta_fn(wages, 1:nrow(wages))
+
+set.seed(198)
+boot(wages, eta_fn, R=1000)
+
+
+
