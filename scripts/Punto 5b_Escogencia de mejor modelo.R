@@ -12,57 +12,46 @@ p_load(tidyverse, skimr, stargazer, tidymodels, broom,knitr,kableExtra)
 
 load("C:/Users/afdia/OneDrive - Universidad de los Andes/Maestría en Economía Aplicada/Big Data y Machine Learning/Repositorios-GitHub/Taller_1/stores/Punto5a_training_set.Rda")
 load("C:/Users/afdia/OneDrive - Universidad de los Andes/Maestría en Economía Aplicada/Big Data y Machine Learning/Repositorios-GitHub/Taller_1/stores/Punto5a_test_set.Rda")
-load("C:/Users/afdia/OneDrive - Universidad de los Andes/Maestría en Economía Aplicada/Big Data y Machine Learning/Repositorios-GitHub/Taller_1/stores/database_18_clean.Rda")
-base_de_datos <- df_clean
+load("C:/Users/afdia/OneDrive - Universidad de los Andes/Maestría en Economía Aplicada/Big Data y Machine Learning/Repositorios-GitHub/Taller_1/stores/Punto5a_base_de_datos.Rda")
+
 
 #Creación de variables adicionales
 
-base_de_datos<-base_de_datos %>% mutate(age3 = age^3)
-base_de_datos<-base_de_datos %>% mutate(age4 = age^4)
-base_de_datos<-base_de_datos %>% mutate(age5 = age^5)
-
 #Creación de recipes
 
-recp_1<-recipe(log_wageh ~ 1,data=base_de_datos) #Modelo log(w) = b0
+recp_1<-recipe(log_wageh ~ 1,data=base_de_datos)
 
-recp_2<-recipe(log_wageh ~ age + age2,data=base_de_datos) #Modelo log(w) = b0 + b1*Age + b2*Age^2
+recp_2<-recipe(log_wageh ~ age + age2,data=base_de_datos)
 
-recp_3<-recipe(log_wageh ~ female, data=base_de_datos) #Modelo log(w) = b0 + d1*female
+recp_3<-recipe(log_wageh ~ female, data=base_de_datos)
 
-recp_4<-recipe(log_wageh ~ female + age + age2 + informal + maxEducLevel + 
+recp_4<-recipe(log_wageh ~ female + informal + maxEducLevel + 
                  sizeFirm + relab , data=base_de_datos) %>% 
   step_dummy(all_nominal_predictors())  #Convertir todas las variables categóricas a dummies  
-#Modelo log(w) = b0 + d1*female + controles_1
 
-recp_5<-recipe(log_wageh ~ female + age + age2 + informal + maxEducLevel + 
+
+recp_5<-recipe(log_wageh ~ female + age + informal + maxEducLevel + 
                  sizeFirm + relab , data=base_de_datos) %>% 
   step_dummy(all_nominal_predictors())  #Convertir todas las variables categóricas a dummies  
-#Modelo log(w) = b0 + d1*female + controles_1
 
-recp_6<-recipe(log_wageh ~ female + age + age2 + informal + maxEducLevel + 
-                 sizeFirm + relab , data=base_de_datos) %>% 
+
+recp_6<-recipe(log_wageh ~ female + age + age2 + female_age + female_age2 + informal + maxEducLevel + 
+                 sizeFirm + relab, data=base_de_datos) %>% 
   step_dummy(all_nominal_predictors())  #Convertir todas las variables categóricas a dummies  
-#Modelo log(w) = b0 + d1*female + controles_1
+
 
 recp_7<-recipe(log_wageh ~ female + age + age2 + informal + maxEducLevel + 
                  sizeFirm + relab , data=base_de_datos) %>% 
   step_dummy(all_nominal_predictors())  #Convertir todas las variables categóricas a dummies  
-#Modelo log(w) = b0 + d1*female + controles_1
 
-recp_8<-recipe(log_wageh ~ female + age + age2 + informal + maxEducLevel + 
-                 sizeFirm + relab , data=base_de_datos) %>% 
-  step_dummy(all_nominal_predictors())  #Convertir todas las variables categóricas a dummies  
-#Modelo log(w) = b0 + d1*female + controles_1
-
-recp_9<-recipe(log_wageh ~ female + age + age2 + informal + maxEducLevel + 
-                 sizeFirm + relab , data=base_de_datos) %>% 
-  step_dummy(all_nominal_predictors())  #Convertir todas las variables categóricas a dummies  
-#Modelo log(w) = b0 + d1*female + controles_1
-
-recp_10<-recipe(log_wageh ~ female + age + age2 + informal + maxEducLevel + 
+recp_8<-recipe(log_wageh ~ female + age + age2 + age3,  data=base_de_datos)
+  
+recp_9<-recipe(log_wageh ~ female + age + age2 + age3 + age4, data=base_de_datos)
+  
+recp_10<-recipe(log_wageh ~ female + age + age2 + age3 + informal + maxEducLevel + 
                   sizeFirm + relab , data=base_de_datos) %>% 
   step_dummy(all_nominal_predictors())  #Convertir todas las variables categóricas a dummies  
-#Modelo log(w) = b0 + d1*female + controles_1
+
 
 #Creación de tipo de método de estimación
 
@@ -105,7 +94,7 @@ yhat_1 <- predict(fit_1, new_data = test_set) %>% bind_cols(test_set) #Predecir 
 RMSE_test_1 <- rmse(yhat_1, truth = log_wageh, estimate = .pred)
 
 df_RMSE[1,1]<-"Modelo 1"
-df_RMSE[1,2]<-round(RMSE_test_1$.estimate,3)
+df_RMSE[1,2]<-RMSE_test_1$.estimate
 
 #Modelo 2
 
@@ -116,7 +105,7 @@ yhat_2 <- predict(fit_2, new_data = test_set) %>% bind_cols(test_set) #Predecir 
 RMSE_test_2 <- rmse(yhat_2, truth = log_wageh, estimate = .pred)
 
 df_RMSE[2,1]<-"Modelo 2"
-df_RMSE[2,2]<-round(RMSE_test_2$.estimate,3)
+df_RMSE[2,2]<-RMSE_test_2$.estimate
 
 #Modelo 3
 
@@ -127,7 +116,7 @@ yhat_3 <- predict(fit_3, new_data = test_set) %>% bind_cols(test_set) #Predecir 
 RMSE_test_3 <- rmse(yhat_3, truth = log_wageh, estimate = .pred)
 
 df_RMSE[3,1]<-"Modelo 3"
-df_RMSE[3,2]<-round(RMSE_test_3$.estimate,3)
+df_RMSE[3,2]<-RMSE_test_3$.estimate
 
 #Modelo 4
 
@@ -138,7 +127,7 @@ yhat_4 <- predict(fit_4, new_data = test_set) %>% bind_cols(test_set) #Predecir 
 RMSE_test_4 <- rmse(yhat_4, truth = log_wageh, estimate = .pred)
 
 df_RMSE[4,1]<-"Modelo 4"
-df_RMSE[4,2]<-round(RMSE_test_4$.estimate,3)
+df_RMSE[4,2]<-RMSE_test_4$.estimate
 
 #Modelo 5
 
@@ -149,7 +138,7 @@ yhat_5 <- predict(fit_5, new_data = test_set) %>% bind_cols(test_set) #Predecir 
 RMSE_test_5 <- rmse(yhat_5, truth = log_wageh, estimate = .pred)
 
 df_RMSE[5,1]<-"Modelo 5"
-df_RMSE[5,2]<-round(RMSE_test_5$.estimate,3)
+df_RMSE[5,2]<-RMSE_test_5$.estimate
 
 #Modelo 6
 
@@ -160,7 +149,7 @@ yhat_6 <- predict(fit_6, new_data = test_set) %>% bind_cols(test_set) #Predecir 
 RMSE_test_6 <- rmse(yhat_6, truth = log_wageh, estimate = .pred)
 
 df_RMSE[6,1]<-"Modelo 6"
-df_RMSE[6,2]<-round(RMSE_test_6$.estimate,3)
+df_RMSE[6,2]<-RMSE_test_6$.estimate
 
 #Modelo 7
 
@@ -171,7 +160,7 @@ yhat_7 <- predict(fit_7, new_data = test_set) %>% bind_cols(test_set) #Predecir 
 RMSE_test_7 <- rmse(yhat_7, truth = log_wageh, estimate = .pred)
 
 df_RMSE[7,1]<-"Modelo 7"
-df_RMSE[7,2]<-round(RMSE_test_7$.estimate,3)
+df_RMSE[7,2]<-RMSE_test_7$.estimate
 
 #Modelo 8
 
@@ -182,7 +171,7 @@ yhat_8 <- predict(fit_8, new_data = test_set) %>% bind_cols(test_set) #Predecir 
 RMSE_test_8 <- rmse(yhat_8, truth = log_wageh, estimate = .pred)
 
 df_RMSE[8,1]<-"Modelo 8"
-df_RMSE[8,2]<-round(RMSE_test_8$.estimate,3)
+df_RMSE[8,2]<-RMSE_test_8$.estimate
 
 #Modelo 9
 
@@ -193,7 +182,7 @@ yhat_9 <- predict(fit_9, new_data = test_set) %>% bind_cols(test_set) #Predecir 
 RMSE_test_9 <- rmse(yhat_9, truth = log_wageh, estimate = .pred)
 
 df_RMSE[9,1]<-"Modelo 9"
-df_RMSE[9,2]<-round(RMSE_test_9$.estimate,3)
+df_RMSE[9,2]<-RMSE_test_9$.estimate
 
 #Modelo 10
 
@@ -204,11 +193,22 @@ yhat_10 <- predict(fit_10, new_data = test_set) %>% bind_cols(test_set) #Predeci
 RMSE_test_10 <- rmse(yhat_10, truth = log_wageh, estimate = .pred)
 
 df_RMSE[10,1]<-"Modelo 10"
-df_RMSE[10,2]<-round(RMSE_test_10$.estimate,3)
+df_RMSE[10,2]<-RMSE_test_10$.estimate
 
-df_RMSE
+df_RMSE<-df_RMSE %>% arrange(desc(RMSE))
 
 #Exportar RMSE
+
+a<-df_RMSE[[1]]
+
+ggplot(df_RMSE,aes(x=factor(Modelo,level=a),y=RMSE,group=1))+
+  geom_line()+
+  geom_point()+
+  labs(x="")+
+  theme_bw()+
+  theme(axis.text.x = element_text(size = 7)) 
+
+ggsave("C:/Users/afdia/OneDrive - Universidad de los Andes/Maestría en Economía Aplicada/Big Data y Machine Learning/Repositorios-GitHub/Taller_1/view/Punto5_RMSE.png")
 
 write.csv(df_RMSE, "C:/Users/afdia/OneDrive - Universidad de los Andes/Maestría en Economía Aplicada/Big Data y Machine Learning/Repositorios-GitHub/Taller_1/view/Tabla_Punto5_ValidationSet_RMSE.csv", row.names = F)
 
