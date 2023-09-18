@@ -1,1 +1,32 @@
+### Taller 1
+## Punto 4
+
+# General
+install.packages('pacman')
+require(pacman)
+p_load(tidyverse, skimr, stargazer, ggplot2, tidymodels, broom,knitr,kableExtra)
+
+# Importing the Clean Dataset
+load("/cloud/project/database_18_clean.Rda")
+wages <- df_clean
+View(wages)
+
+
+# Variable Selection
+X <- wages %>%
+  select(female)
+
+y <- wages %>%
+  select(log_wageh) %>%
+  rename (y = 'log_wageh')
+
+dat <- cbind(X,y)
+skim(dat)
+
+
+# Regression Model
+mod_female <- lm(y ~ ., data = dat, x = TRUE)
+setwd('/cloud/project')
+?stargazer
+stargazer(mod_gender, type = "text", out = "mod_female.txt", dep.var.labels = c("Salario por hora"))
 
