@@ -5,7 +5,7 @@ library (pacman)
 p_load(tidyverse, skimr, stargazer, tidymodels, broom,knitr,kableExtra)
 
 ##Cargue de base de datos##
-setwd("C:/users/USER/OneDrive - Pontificia Universidad Javeriana/Desktop/Taller_1/stores")
+setwd("C:/users/de.sandoval10/Documents/GitHub/Taller_1/stores")
 load("database_18_clean.Rda")
 
 ##Modelo linel##
@@ -15,7 +15,7 @@ X <-  df_clean %>% select(salario.por)
 
 #Variable Y
 y <- df_clean %>% 
-  select(log_wageh)  %>%
+  select(log_wageh) %>%
   rename(y='log_wageh')
 
 dat = cbind(X, y)
