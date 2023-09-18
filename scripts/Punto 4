@@ -28,5 +28,5 @@ skim(dat)
 mod_female <- lm(y ~ ., data = dat, x = TRUE)
 setwd('/cloud/project')
 ?stargazer
-stargazer(mod_gender, type = "text", out = "mod_female.txt", dep.var.labels = c("Salario por hora"))
+stargazer(mod_female, type = "text", out = "mod_female.txt", dep.var.labels = c("Salario por hora"))
 
