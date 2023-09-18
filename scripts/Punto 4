@@ -60,15 +60,14 @@ stargazer(rm_FWL_female,rm_FWL_female_controls,rm_residuals,
 p_load(boot)
 
 eta_fn <- function(data, index){
-  coef(lm(log_wageh ~ ., data = model_female_controls, subset = index))[2]
+  rm_FWL_boot <- subset(model_female_controls, select = log_wageh:relab)
+  coef(lm(r1 ~ r2, data = model_female_controls, subset = index))[2]
 } 
 
 eta_fn(wages, 1:nrow(wages))
 
 set.seed(198)
 boot(wages, eta_fn, R=1000)
-mean(eta_fn)
-sqrt(var(eta_fn))
 
 
 
