@@ -5,7 +5,7 @@ library (pacman)
 p_load(tidyverse, tidymodels, glmnet)
 
 ##Cargue de base de datos y visualización
-setwd("d:/Javier/Desktop/UNIANDES/Big Data/Taller_1/stores")
+setwd("C:/users/de.sandoval10/Documents/GitHub/Taller_1/stores")
 load("database_18.Rda")
 view(database_18)
 
@@ -83,11 +83,10 @@ std_wageh<- sd(df_sin_nan$y_total_m_ha)
 print(std_wageh)
 mean_wage<- mean(df_sin_nan$y_total_m_ha)
 print(mean_wage)
-tres_std_wageh<- std_wageh*3+mean_wage
+tres_std_wageh<- std_wageh*3
 print(tres_std_wageh)
 
-df_clean <- df_sin_nan[df_sin_nan$y_total_m_ha <= 125000, ]
-df_clean <- df_sin_nan[df_sin_nan$y_total_m_ha > 1006, ]
+df_clean <- df_sin_nan[df_sin_nan$y_total_m_ha <= 'tres_std_wageh', ]
 
 ##Creación del logaritmo del salario
 
